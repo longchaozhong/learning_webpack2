@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "file": "main.c8a35a680e2a3c34ed1d.js",
+  "sources": [
+    "webpack:///./src/style.css",
+    "webpack:///./src/module.js",
+    "webpack:///./src/index.js"
+  ],
+  "sourcesContent": [
+    "// removed by extract-text-webpack-plugin\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/style.css\n// module id = GcMe\n// module chunks = 1",
+    "/**\n * Created by lcz on 2017/6/15.\n */\nimport moment from 'moment';\n\nconsole.info(moment);\n\nexport default {};\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/module.js\n// module id = b1gV\n// module chunks = 1",
+    "import moment from 'moment';\nimport _ from 'lodash';\nimport './style.css';\n\nimport './module';\n\nfunction component() {\n  var element = document.createElement('div');\n  element.innerHTML = _.join(['Hello', 'webpack'], ' ');\n  return element;\n}\n\ndocument.body.appendChild(component());\n\nconsole.info(moment);\n$('body').append('<div>$$$$</div>');\n\n\n//////////////////\n// WEBPACK FOOTER\n// ./src/index.js\n// module id = lVK7\n// module chunks = 1"
+  ],
+  "mappings": ";;;;;AAAA;;;;;;;;ACAA;AAAA;AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;;;;ACPA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;;;;A",
+  "sourceRoot": ""
+}
