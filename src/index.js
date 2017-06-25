@@ -13,4 +13,4 @@ function component () {
 document.body.appendChild(component());
 
 console.info(moment);
-$('body').append('<div>CCCC</div>');
+$('body').append('<div>AAAAACCC</div>');

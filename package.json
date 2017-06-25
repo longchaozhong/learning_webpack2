@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "rm -rf dev && webpack --colors --progress --config webpack.config.dev.js",
     "prod": "npm run clean && webpack --progress --config webpack.config.prod.js",
-    "server": "node_modules/.bin/webpack-dev-server --hot --config webpack.config.dev.js",
+    "server": "node_modules/.bin/webpack-dev-server --hot --inline --config webpack.config.dev.js",
     "clean": "rm -rf dist"
   },
   "keywords": [],
