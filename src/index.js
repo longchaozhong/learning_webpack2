@@ -3,6 +3,7 @@ import _ from 'lodash';
 import './style.css';
 
 import './module';
+import './main.scss';
 
 function component () {
   var element = document.createElement('div');
@@ -10,7 +11,13 @@ function component () {
   return element;
 }
 
+
+$('body').on('click','.blunk',function () {
+    $('body').append('<div>DDDAAA</div>');
+});
+
 document.body.appendChild(component());
 
-console.info(moment);
-$('body').append('<div>AAAAACCC</div>');
+
+
+

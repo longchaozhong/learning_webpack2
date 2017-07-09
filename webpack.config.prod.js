@@ -5,20 +5,66 @@ let ManifestPlugin = require('webpack-manifest-plugin');
 let ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-let baseConfig = require('./webpack.config.base');
 
-module.exports = Object.assign(baseConfig, {
+module.exports = {
+    entry: {
+        main: './src/index.js'
+    },
     output: {
         filename: '[name].[chunkhash].js',//[chunkhash]是依据文件内容生成，与文件内容一一对应,开发环境不建议使用，会增加编译时间
         path: path.resolve(__dirname, 'dist')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader'
+                ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ['babel-loader']
+            }
+        ]
     },
     devtool: 'cheap-module-source-map',//不包含列信息，同时 loader 的 sourcemap 也被简化为只包含对应行的。最终的 sourcemap 只有一份，它是 webpack 对 loader 生成的 sourcemap 进行简化，然后再次生成的
     plugins: [
         new HtmlWebpackPlugin({
             inject: false,//是否由插件注入标签，false表示用户手动配置（模板语法）
             template: path.resolve('./src/index.html'),//模板路径
-            filename: path.resolve('./index.html')//输出路径
+            filename: path.resolve('./dist/index.html')//输出路径
         }),
+
+        /**
+         * 相当于在每个模块中执行：
+         *      let $ = require('jquery');
+         *      let jQuery = require('jquery');
+         *
+         * 作用：
+         *      1、对于常用模块，不用每个木块都去引用
+         *      2、改造遗留模块（还可以使用imports-loader、exports-loader、script-loader）
+         */
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        }),
+
         /**
          * 提取js公共代码块，此时生成的各个文件都包含webpack需要的runtime code；
          * 由于文件一直在变化，导致runtime code也一直在变化，因此生成的文件都在变化（包括提取的公共库）
@@ -72,5 +118,5 @@ module.exports = Object.assign(baseConfig, {
         })
 
     ]
-});
+};
 

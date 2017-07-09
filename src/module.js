@@ -3,6 +3,6 @@
  */
 import moment from 'moment';
 
-console.info(moment);
+console.info("I'm back....6");
 
 export default  {};

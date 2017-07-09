@@ -5,12 +5,39 @@ let ManifestPlugin = require('webpack-manifest-plugin');
 let ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-let baseConfig = require('./webpack.config.base');
 
-module.exports = Object.assign(baseConfig, {
+module.exports = {
+    entry: {
+        main: './src/index.js'
+    },
+
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'dev')
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loader"]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader'
+                ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ['babel-loader', "webpack-module-hot-accept"]
+            }
+        ]
     },
 
     /**
@@ -34,7 +61,7 @@ module.exports = Object.assign(baseConfig, {
      *  #module     使用简化loader的map
      *
      */
-    devtool: 'inline-source-map',//cheap-eval-source-map
+    devtool: 'cheap-module-source-map',//cheap-eval-source-map
 
     plugins: [
         /**
@@ -58,7 +85,7 @@ module.exports = Object.assign(baseConfig, {
         new HtmlWebpackPlugin({
             inject: false,//是否由插件注入标签，false表示用户手动配置（模板语法）
             template: path.resolve('./src/index.html'),//模板路径
-            filename: path.resolve('./index.dev.html')//输出路径
+            filename: path.resolve('./dev/index.html')//输出路径
         }),
         /**
          * 提取js公共代码块，此时生成的各个文件都包含webpack需要的runtime code；
@@ -91,11 +118,12 @@ module.exports = Object.assign(baseConfig, {
 
         /**
          * 这个插件会根据模块的相对路径生成一个长度只有四位的字符串作为模块的 id
+         * ###使用Webpack HMR 不能使用该插件，不然导致模块不可识别
          */
-        new webpack.HashedModuleIdsPlugin(),
+        // new webpack.HashedModuleIdsPlugin(),
 
         //提取样式
-        new ExtractTextPlugin("styles.css"),
+        //new ExtractTextPlugin("styles.css"),
 
         //生成source map文件
         // new webpack.SourceMapDevToolPlugin({
@@ -118,14 +146,9 @@ module.exports = Object.assign(baseConfig, {
     ],
 
     devServer: {
-        contentBase: path.join(__dirname, "./"),//服务器内容根目录，可以是数组
-        port: 9999,//端口
-        compress: true,//一切服务都启用gzip 压缩
-        headers: {//添加自定义头部
-            "X-Custom-Foo": "bar"
-        },
-        hot: true,
-        public:'dev.long.com'
+        contentBase: path.join(__dirname, "./dev"),//服务器内容根目录，可以是数组
+        port: 8888,//端口
+        hot: true
     }
-});
+};
 

@@ -1,6 +1,11 @@
 .blunk{
-	width: 100px;
-	height: 100px;
-	background: url('./images/1.jpg');
-	background-size:100% 100%;
+	width: 200px;
+	height: 200px;
+	background: blue !important;
+}
+
+body{
+	background: yellowgreen;
+	height: 200px;
+	overflow: scroll;
 }
